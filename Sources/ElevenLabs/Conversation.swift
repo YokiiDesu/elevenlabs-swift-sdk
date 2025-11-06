@@ -424,7 +424,9 @@ public final class Conversation: ObservableObject, RoomDelegate {
         }
 
         if let prepared = config?.recordingAlwaysPrepared {
-            try? audioManager.setRecordingAlwaysPreparedMode(prepared)
+            Task {
+                try? await audioManager.setRecordingAlwaysPreparedMode(prepared)
+            }
         }
 
         if let bypass = config?.voiceProcessingBypassed {
@@ -538,7 +540,7 @@ public final class Conversation: ObservableObject, RoomDelegate {
 
         Task {
             do {
-                try AudioManager.shared.setRecordingAlwaysPreparedMode(true)
+                try await AudioManager.shared.setRecordingAlwaysPreparedMode(true)
             } catch {
                 // ignore: we have no error handler public API yet
             }
@@ -1060,7 +1062,7 @@ private final class ConversationDataDelegate: RoomDelegate, @unchecked Sendable 
     }
 
     func room(
-        _: Room, participant _: RemoteParticipant?, didReceiveData data: Data, forTopic _: String,
+        _: Room, participant _: RemoteParticipant?, didReceiveData data: Data, forTopic _: String, encryptionType _: EncryptionType,
     ) {
         onData(data)
     }
