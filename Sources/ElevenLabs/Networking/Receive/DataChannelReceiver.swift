@@ -67,6 +67,7 @@ actor DataChannelReceiver: MessageReceiver {
 extension DataChannelReceiver: RoomDelegate {
     nonisolated func room(
         _: Room, participant: RemoteParticipant?, didReceiveData data: Data, forTopic _: String,
+        // Minor fix
         encryptionType _: EncryptionType
     ) {
         // Only process messages from the agent
